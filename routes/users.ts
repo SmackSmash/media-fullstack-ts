@@ -47,7 +47,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
 
   try {
     const response = await userModel.deleteOne({ _id: id });
-    res.status(200).send(response);
+    res.status(200).send({ id, ...response });
   } catch (error) {
     res.status(500).send(error);
   }
