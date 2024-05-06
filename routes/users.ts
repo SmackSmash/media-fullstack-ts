@@ -21,7 +21,10 @@ router.get('/', async (req: Request, res: Response) => {
 // @access  Public
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const response = await userModel.create({ name: faker.person.fullName() });
+    const response = await userModel.create({
+      name: faker.person.fullName(),
+      email: faker.internet.email()
+    });
     res.status(200).send(response);
   } catch (error: unknown) {
     res.status(500).send(error);
@@ -33,9 +36,7 @@ router.post('/', async (req: Request, res: Response) => {
 // @access  Public
 router.delete('/:id', async (req: Request, res: Response) => {
   try {
-    const { error } = validateDeleteUser.validate(req.params, {
-      abortEarly: false
-    });
+    const { error } = validateDeleteUser.validate(req.params);
 
     if (error) {
       res.status(422).send({ error: error.details[0].message });
