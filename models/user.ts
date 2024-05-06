@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema<User>({
 });
 
 export const validateDeleteUser = Joi.object().keys({
-  id: String
+  id: Joi.string().min(3)
 });
 
 export default mongoose.model<User>('users', userSchema);

@@ -33,17 +33,17 @@ router.post('/', async (req: Request, res: Response) => {
 // @access  Public
 router.delete('/:id', async (req: Request, res: Response) => {
   try {
-    const { error } = await validateDeleteUser.validateAsync(req.params);
+    const { error } = validateDeleteUser.validate(req.params, {
+      abortEarly: false
+    });
 
     if (error) {
-      console.log(error);
-      res.status(422).send({ error: error.details });
+      res.status(422).send({ error: error.details[0].message });
+    } else {
+      const { id } = req.params;
+      const response = await userModel.deleteOne({ _id: id });
+      res.status(200).send({ id, ...response });
     }
-
-    const { id } = req.params;
-
-    const response = await userModel.deleteOne({ _id: id });
-    res.status(200).send({ id, ...response });
   } catch (error) {
     res.status(500).send(error);
   }
