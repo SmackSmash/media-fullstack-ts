@@ -45,8 +45,13 @@ router.delete('/:id', async (req: Request, res: Response) => {
       res.status(422).send({ error: error.details[0].message });
     } else {
       const { id } = req.params;
-      const response = await userModel.deleteOne({ _id: id });
-      res.status(200).send({ id, ...response });
+      const user = await userModel.findById(id);
+      if (!user) {
+        res.status(422).send({ error: `No user exists with ID of ${id}` });
+      } else {
+        const response = await userModel.deleteOne({ _id: id });
+        res.status(200).send({ id, ...response });
+      }
     }
   } catch (error) {
     res.status(500).send(error);
