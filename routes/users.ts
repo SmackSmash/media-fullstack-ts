@@ -1,6 +1,10 @@
 import express, { type Request, type Response } from 'express';
 import { faker } from '@faker-js/faker';
+import { randomUUID } from 'crypto';
+import axios from 'axios';
 import userModel, { validateDeleteUser } from '../models/user';
+import download from '../utils/download';
+import keys from '../config/keys';
 
 const router = express.Router();
 
@@ -24,9 +28,23 @@ router.post('/', async (req: Request, res: Response) => {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
 
+    const profileImg = await axios.get(
+      `https://api.unsplash.com/photos/random/?client_id=${keys.UNSPLASH_KEY}&query=profile`
+    );
+
+    console.log(profileImg.data.urls.small_s3);
+
+    const imageId = randomUUID();
+
+    await download(
+      profileImg.data.urls.thumb,
+      `./images/profile/${imageId}.jpg`
+    );
+
     const response = await userModel.create({
       name: `${firstName} ${lastName}`,
-      email: faker.internet.email({ firstName, lastName })
+      email: faker.internet.email({ firstName, lastName }),
+      image: imageId
     });
     res.status(200).send(response);
   } catch (error: unknown) {
