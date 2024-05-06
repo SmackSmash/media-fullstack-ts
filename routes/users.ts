@@ -21,9 +21,12 @@ router.get('/', async (req: Request, res: Response) => {
 // @access  Public
 router.post('/', async (req: Request, res: Response) => {
   try {
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+
     const response = await userModel.create({
-      name: faker.person.fullName(),
-      email: faker.internet.email()
+      name: `${firstName} ${lastName}`,
+      email: faker.internet.email({ firstName, lastName })
     });
     res.status(200).send(response);
   } catch (error: unknown) {
