@@ -17,7 +17,7 @@ app.use('/users', usersRouter);
 import albumsRouter from './routes/albums';
 app.use('/albums', albumsRouter);
 
-app.use(express.static('images'));
+app.use(express.static('public'));
 
 app.listen(keys.PORT, () => {
   console.log(`Server running on port ${keys.PORT}`);

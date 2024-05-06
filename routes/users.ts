@@ -38,7 +38,7 @@ router.post('/', async (req: Request, res: Response) => {
 
     await download(
       profileImg.data.urls.thumb,
-      `./images/profile/${imageId}.jpg`
+      `./public/images/profile/${imageId}.jpg`
     );
 
     const response = await userModel.create({
