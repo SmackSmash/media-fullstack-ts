@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 interface Album {
   title: string;
   userId: {
-    type: string;
-    ref: mongoose.Types.ObjectId;
+    type: mongoose.Types.ObjectId;
+    ref: string;
   };
 }
 
@@ -15,3 +15,5 @@ const albumsSchema = new mongoose.Schema<Album>({
     ref: 'users'
   }
 });
+
+export default mongoose.model<Album>('albums', albumsSchema);
