@@ -7,7 +7,14 @@ const router = express.Router();
 // @route   GET /albums
 // @desc    Get all albums
 // @access  Public
-router.get('/', async (req: Request, res: Response) => {});
+router.get('/', async (req: Request, res: Response) => {
+  try {
+    const response = await albumModel.find();
+    res.send(response);
+  } catch (error: unknown) {
+    res.status(500).send(error);
+  }
+});
 
 // @route   POST /albums
 // @desc    Add an album attached to a user
