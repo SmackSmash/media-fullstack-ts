@@ -32,8 +32,6 @@ router.post('/', async (req: Request, res: Response) => {
       `https://api.unsplash.com/photos/random/?client_id=${keys.UNSPLASH_KEY}&query=profile`
     );
 
-    console.log(profileImg.data.urls.small_s3);
-
     const imageId = randomUUID();
 
     await download(
