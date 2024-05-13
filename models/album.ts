@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Joi from 'joi';
 
 interface Album {
   title: string;
@@ -14,6 +15,10 @@ const albumsSchema = new mongoose.Schema<Album>({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users'
   }
+});
+
+export const validateDeleteAlbum = Joi.object().keys({
+  id: Joi.string().min(3)
 });
 
 export default mongoose.model<Album>('albums', albumsSchema);
