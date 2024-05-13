@@ -1,6 +1,7 @@
 import express, { type Request, type Response } from 'express';
 import albumModel from '../models/album';
 import { faker } from '@faker-js/faker';
+import { validateDeleteAlbum } from '../models/album';
 
 const router = express.Router();
 
@@ -46,8 +47,18 @@ router.post('/:userId', async (req: Request, res: Response) => {
 // @route   DELETE /albums/:albumId
 // @desc    Delete an album by album ID
 // @access  Public
-router.delete('/:albumId', async (req: Request, res: Response) => {
-  res.send('Delete album');
+router.delete('/:id', async (req: Request, res: Response) => {
+  try {
+    const { error } = validateDeleteAlbum.validate(req.params);
+
+    if (error) {
+      res.status(422).send({ error: error.details[0].message });
+    } else {
+      res.send('Delete album');
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 export default router;
