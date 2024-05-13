@@ -43,4 +43,11 @@ router.post('/:userId', async (req: Request, res: Response) => {
   }
 });
 
+// @route   DELETE /albums/:albumId
+// @desc    Delete an album by album ID
+// @access  Public
+router.delete('/:albumId', async (req: Request, res: Response) => {
+  res.send('Delete album');
+});
+
 export default router;
