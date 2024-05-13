@@ -54,7 +54,16 @@ router.delete('/:id', async (req: Request, res: Response) => {
     if (error) {
       res.status(422).send({ error: error.details[0].message });
     } else {
-      res.send('Delete album');
+      const { id } = req.params;
+
+      const album = await albumModel.findById(id);
+
+      if (!album) {
+        res.status(422).send({ error: `No album exists with ID of ${id}` });
+      } else {
+        const response = await albumModel.deleteOne({ _id: id });
+        res.send({ id, ...response });
+      }
     }
   } catch (error) {
     res.status(500).send(error);

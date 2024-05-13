@@ -14,9 +14,9 @@ const router = express.Router();
 router.get('/', async (req: Request, res: Response) => {
   try {
     const response = await userModel.find();
-    res.status(200).send(response);
+    res.send(response);
   } catch (error) {
-    res.status(200).send('Get users');
+    res.status(500).send(error);
   }
 });
 
@@ -44,7 +44,7 @@ router.post('/', async (req: Request, res: Response) => {
       email: faker.internet.email({ firstName, lastName }),
       image: imageId
     });
-    res.status(200).send(response);
+    res.send(response);
   } catch (error: unknown) {
     res.status(500).send(error);
   }
@@ -66,7 +66,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
         res.status(422).send({ error: `No user exists with ID of ${id}` });
       } else {
         const response = await userModel.deleteOne({ _id: id });
-        res.status(200).send({ id, ...response });
+        res.send({ id, ...response });
       }
     }
   } catch (error) {
