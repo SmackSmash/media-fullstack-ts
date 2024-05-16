@@ -23,4 +23,4 @@ export const validateDeleteSingle = Joi.object().keys({
   id: Joi.string().min(3)
 });
 
-export default singleSchema;
+export default mongoose.model<Single>('singles', singleSchema);
