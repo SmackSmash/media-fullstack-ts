@@ -16,6 +16,8 @@ import usersRouter from './routes/users';
 app.use('/users', usersRouter);
 import albumsRouter from './routes/albums';
 app.use('/albums', albumsRouter);
+import singlesRouter from './routes/singles';
+app.use('/singles', singlesRouter);
 
 app.use(express.static('public'));
 
