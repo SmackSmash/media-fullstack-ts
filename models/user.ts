@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Joi from 'joi';
+
 interface User {
   name: string;
   email: string;
