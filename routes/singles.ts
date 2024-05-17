@@ -43,8 +43,6 @@ router.post('/:albumId', async (req: Request, res: Response) => {
     });
 
     res.send(response);
-
-    // const response = await singleModel.create({ })
   } catch (error) {
     res.status(500).send(error);
   }
@@ -53,9 +51,24 @@ router.post('/:albumId', async (req: Request, res: Response) => {
 // @route   DELETE /singles/:singleId
 // @desc    Delete a single
 // @access  Public
-router.delete('/:singleId', (req: Request, res: Response) => {
+router.delete('/:id', async (req: Request, res: Response) => {
   try {
-    res.send('Delete single');
+    const { error } = validateDeleteSingle.validate(req.params);
+
+    if (error) {
+      res.status(422).send({ error: error.details[0].message });
+    } else {
+      const { id } = req.params;
+
+      const single = await singleModel.findById(id);
+
+      if (!single) {
+        res.status(422).send({ error: `No single exists with ID of ${id}` });
+      } else {
+        const response = await singleModel.deleteOne({ _id: id });
+        res.send({ id, ...response });
+      }
+    }
   } catch (error) {
     res.status(500).send(error);
   }
