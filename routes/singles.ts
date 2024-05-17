@@ -50,4 +50,14 @@ router.post('/:albumId', async (req: Request, res: Response) => {
   }
 });
 
+// @route   DELETE /singles/:singleId
+// @desc    Delete a single
+// @access  Public
+router.delete('/:singleId', (req: Request, res: Response) => {
+  try {
+    res.send('Delete single');
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 export default router;
