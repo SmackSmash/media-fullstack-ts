@@ -1,7 +1,5 @@
 node_modules
 client
-public/images/profile/*
-public/images/singles/*
 
 .env
 
